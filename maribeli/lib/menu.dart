@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
+
+  final List<InventItem> items = [
+  InventItem("Lihat Item", Icons.checklist, const Color.fromARGB(255, 134, 201, 255)), // Contoh warna biru
+  InventItem("Tambah Item", Icons.add_shopping_cart, Color.fromARGB(255, 255, 168, 239)), // Contoh warna hijau
+  InventItem("Logout", Icons.logout, Color.fromARGB(255, 255, 241, 161)), // Contoh warna merah
+];
 
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -24,7 +30,7 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Welcome To MariBeli',
+          'Happy Shopping!',
 
         ),
         backgroundColor: Color.fromARGB(255, 222, 255, 168), 
@@ -41,7 +47,7 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'Happy Shopping!', // Text yang menandakan toko
+                  'Welcome to MariBeli', // Text yang menandakan toko
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Poppins',
@@ -59,9 +65,9 @@ class MyHomePage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                children: items.map((ShopItem item) {
+                children: items.map((InventItem item) {
                   // Iterasi untuk setiap item
-                  return ShopCard(item);
+                  return InventCard(item);
                 }).toList(),
               ),
             ],
@@ -72,10 +78,10 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class ShopCard extends StatelessWidget {
-  final ShopItem item;
+class InventCard extends StatelessWidget {
+  final InventItem item;
 
-  const ShopCard(this.item, {super.key}); // Constructor
+  const InventCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
@@ -118,16 +124,12 @@ class ShopCard extends StatelessWidget {
 }
 
 
-class ShopItem {
+class InventItem {
   final String name;
   final IconData icon;
   final Color color; // Tambah properti warna
 
-  ShopItem(this.name, this.icon, this.color);
+  InventItem(this.name, this.icon, this.color);
 }
 
-final List<ShopItem> items = [
-  ShopItem("Lihat Item", Icons.checklist, const Color.fromARGB(255, 134, 201, 255)), // Contoh warna biru
-  ShopItem("Tambah Item", Icons.add_shopping_cart, Color.fromARGB(255, 255, 168, 239)), // Contoh warna hijau
-  ShopItem("Logout", Icons.logout, Color.fromARGB(255, 255, 241, 161)), // Contoh warna merah
-];
+
