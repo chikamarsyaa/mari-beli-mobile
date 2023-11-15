@@ -42,3 +42,305 @@
 - Atur widget halaman dari stateful menjadi stateless, dan modifikasi konstruktor dan tambahkan daftar produk.
 - Lalu, tampilkan kartu produk, dan buat widget stateless baru dengan nama InventCard untuk menampilkan kartu item. Di dalam InventCard, gunakan InkWell untuk membuat area responsif terhadap interaksi pengguna.
 - Saat tombol ditekan, atur agak Snackbar muncul dengan pesan sesuai.
+
+---
+<details>
+<summary><b>Tugas 8</b></summary>
+
+---
+### (1) Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement(), disertai dengan contoh mengenai penggunaan kedua metode tersebut yang tepat!
+
+####  Navigator.push() dan Navigator.pushReplacement() adalah dua metode yang sering digunakan dalam pengembangan aplikasi Flutter untuk navigasi antar halaman. Berikut perbedaan antara keduanya :
+A. Navigator.push()
+
+- Fungsi dari Navigator.push() adalah untuk menavigasi ke halaman baru diatas tumpukan navigasi (stack). Maksudnya adalah saat melakukan navigasi menuju halaman baru, halaman saat ini tetap akan didalam stack. 
+- Contoh Penggunaan dari Navigator.push(), Misalkan kita memiliki dua halaman 'HomePage' dan 'DetailPage'. Dari 'HomePage', kita akan pergi menuju 'DetailPage' tanpa menghilangkan 'HomePage' dari navigasi.
+~~~
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => DetailPage()),
+);
+~~~
+- Pada kasus diatas, saat user click tombol back di 'DetailPage', aplikasi akan balik ke 'HomePage'.
+
+B. Navigator.pushReplacement()
+
+- Fungsi dari Navigator.pushReplacement() yaitu untuk menavigasi ke halaman baru sambil menggantikan halaman saat ini di tumpukan navigasi (stack). Hal ini mencegah pengguna untuk kembali ke halaman sebelumnya dengan menggunakan tombol 'back'.
+- Contoh Penggunaan Navigator.pushReplacement(), Misalkan user sedang ada di 'LoginPage' dan setelah login sukses, user ingin pergi ke 'HomePage' tanpa memberi pilihan opsi untuk kembali ke 'LoginPage'.
+~~~
+Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(builder: (context) => HomePage()),
+);
+~~~
+- Pada case diatas, ketika user mencoba kembali, mereka tidak akan kembali ke 'LoginPage' karena telah digantikan oleh 'HomePage' di stack.
+
+### (2) Jelaskan masing-masing layout widget pada Flutter dan konteks penggunaannya masing-masing!
+- Container: Wadah untuk mengatur tata letak dan memberi styling pada elemen, misalnya padding, margin, alignment, etc.
+- Expanded & Flexible: Mengontrol bagian dari ruang yang tersedia yang digunakan. Expanded mengisi ruang tersedia, sedangkan Flexible memberikan lebih banyak kontrol atas faktor fleksibilitas.
+- Wrap: Membuat row atau column dan secara otomatis beralih ke row atau column berikutnya setelah ruang di row atau column saat ini habis.
+- ConstrainedBox, SizedBox, & AspectRatio: Mengontrol ukuran atau aspek rasio dari elemen childnya.
+- Stack: Berfungsi untuk menumpuk widget/elemen satu di atas yang lain.
+- Padding : Menambahkan padding di sekitar widget child.
+- Align and Center : Align untuk mengatur posisi widget child di dalamnya, sedangkan Center untuk memusatkan child.
+- Row and Column : Row untuk mengatur widget child secara horizontal, sedangkan Column untuk mengatur secara vertikal.
+- GridView : Untuk menampilkan widget dalam grid dua dimensi.
+- ListView : Untuk menampilkan daftar scrollable item.
+- Transform : Untuk mengubah ukuran dan posisi elemen child.
+- Scaffold : Untuk memberikan struktur dasar material design seperti Drawer, Appbar, dan FloatingActionButton.
+
+### (3) Sebutkan apa saja elemen input pada form yang kamu pakai pada tugas kali ini dan jelaskan mengapa kamu menggunakan elemen input tersebut!
+- TextFormField : Widget ini digunakan untuk menerima input dari user dalam bentuk string.
+- Form : Digunakan sebagai wadah untuk berbagai input field widget yang sudah dibuat.
+
+### (4) Bagaimana penerapan clean architecture pada aplikasi Flutter?
+ Konsep dasar Clean Architecture adalah pemisahan antara logika bisnis aplikasi dan framework atau teknologi yang digunakan. Ini membantu dalam memastikan bahwa aplikasi tetap fleksibel dan tidak terikat dengan teknologi tertentu. Berikut tanggung jawab spesifiknya : 
+
+1. Data Layer : Bertanggung jawab atas pengelolaan data flutter (repositori, sumber data, dan repositori).
+2. Bussiness Logic Layer : Merupakan independen dari framework dan UI, dan berisi logic bisnis aplikasi.
+3. Presentation Layer : Berfungsi untuk mengelola UI dan interaksi pengguna. Dapat melalui widget dan logic UI Flutter.
+4. Depedency Injection : Menggunakan teknik provider untuk mengurangi ketergantungan antar komponen. 
+
+### (5) Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial)
+- Membuat direktori baru pada lib yaitu screens dan widgets untuk mempermudah metode clean architecture.
+- Membuat file shoplist_form.dart untuk form menerima input 
+~~~
+import 'package:flutter/material.dart';
+import 'package:maribeli/widgets/left_drawer.dart';
+
+class ShopFormPage extends StatefulWidget {
+  const ShopFormPage({super.key});
+
+  @override
+  State<ShopFormPage> createState() => _ShopFormPageState();
+}
+
+class _ShopFormPageState extends State<ShopFormPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _name = "";
+  int _price = 0;
+  String _description = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Form Tambah Item',
+          ),
+        ),
+        backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
+      ),
+      drawer: const LeftDrawer(),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Nama Item",
+                    labelText: "Nama Item",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _name = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Untuk bagian ini wajib diisi ya!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Harga Item",
+                    labelText: "Harga Item",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    setState(() {
+                      _price = int.tryParse(value) ?? 0;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Harga tidak boleh kosong!";
+                    }
+                    if (int.tryParse(value) == null) {
+                      return "Harga harus berupa angka!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Deskripsi Item ",
+                    labelText: "Deskripsi Item",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _description = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Deskripsi tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Item berhasil tersimpan'),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: [
+                                    Text('Nama: $_name'),
+                                    Text('Harga: $_price'),
+                                    Text('Deskripsi: $_description'),
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    _formKey.currentState!.reset();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                    child: const Text(
+                      "Save",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+~~~
+- Membuat drawer dan menghubungkan opsi tambah item yang berada pada drawer dan halaman utama ke shopliist_form.dart. 
+~~~
+import 'package:flutter/material.dart';
+import 'package:maribeli/screens/menu.dart';
+import 'package:maribeli/screens/shoplist_form.dart';
+
+class LeftDrawer extends StatelessWidget {
+  const LeftDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.indigo,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'MariBeli!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                Text("Anda bisa catat kebutuhan belanja disini lho!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Halaman Utama'),
+            // Bagian redirection ke MyHomePage
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_shopping_cart),
+            title: const Text('Tambah Item'),
+            // Bagian redirection ke ShopFormPage
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ShopFormPage(),
+                ));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+~~~
+- Menghubungkan "Tambah Item" button untuk menuju ke ShopFormPage
+~~~
+if (item.name == "Tambah Item") {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ShopFormPage()));
+~~~

@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:maribeli/widgets/left_drawer.dart';
+import 'package:maribeli/widgets/shop_card.dart';
+
+class ShopItem {
+  final String name;
+  final IconData icon;
+
+  ShopItem(this.name, this.icon);
+}
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
-  final List<InventItem> items = [
-  InventItem("Lihat Item", Icons.checklist, const Color.fromARGB(255, 134, 201, 255)), // Contoh warna biru
-  InventItem("Tambah Item", Icons.add_shopping_cart, Color.fromARGB(255, 255, 168, 239)), // Contoh warna hijau
-  InventItem("Logout", Icons.logout, Color.fromARGB(255, 255, 241, 161)), // Contoh warna merah
-];
-
+  final List<ShopItem> items = [
+    ShopItem("Lihat Item", Icons.checklist),
+    ShopItem("Tambah Item", Icons.add_shopping_cart),
+    ShopItem("Logout", Icons.logout),
+  ];
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
-
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
@@ -30,12 +37,13 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Happy Shopping!',
+          'MariBeli Yuk!',
 
         ),
-        backgroundColor: Color.fromARGB(255, 222, 255, 168), 
-        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+        backgroundColor: Colors.blue.shade600, 
+        foregroundColor: Colors.white,
       ),
+      drawer: const LeftDrawer(),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
@@ -47,10 +55,9 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'Welcome to MariBeli', // Text yang menandakan toko
+                  'MariBeli Yuk!', // Text yang menandakan toko
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: 'Poppins',
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -65,9 +72,9 @@ class MyHomePage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                children: items.map((InventItem item) {
+                children: items.map((ShopItem item) {
                   // Iterasi untuk setiap item
-                  return InventCard(item);
+                  return ShopCard(item);
                 }).toList(),
               ),
             ],
@@ -77,59 +84,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
-class InventCard extends StatelessWidget {
-  final InventItem item;
-
-  const InventCard(this.item, {super.key}); // Constructor
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: item.color, // Menggunakan warna dari properti item
-      child: InkWell(
-        // Area responsive terhadap sentuhan
-        onTap: () {
-          // Memunculkan SnackBar ketika diklik
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}!")));
-        },
-        child: Container(
-          // Container untuk menyimpan Icon dan Text
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: Colors.black,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-class InventItem {
-  final String name;
-  final IconData icon;
-  final Color color; // Tambah properti warna
-
-  InventItem(this.name, this.icon, this.color);
-}
-
-
