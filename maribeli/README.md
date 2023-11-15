@@ -43,7 +43,7 @@
 - Lalu, tampilkan kartu produk, dan buat widget stateless baru dengan nama InventCard untuk menampilkan kartu item. Di dalam InventCard, gunakan InkWell untuk membuat area responsif terhadap interaksi pengguna.
 - Saat tombol ditekan, atur agak Snackbar muncul dengan pesan sesuai.
 
----
+
 <details>
 <summary><b>Tugas 8</b></summary>
 
