@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maribeli/screens/menu.dart';
 import 'package:maribeli/screens/shoplist_form.dart';
-import 'package:maribeli/screens/item.dart';
+import 'package:maribeli/screens/list_product.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -13,12 +13,12 @@ class LeftDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blueAccent,
+              color: Colors.indigo,
             ),
             child: Column(
               children: [
                 Text(
-                  'MariBeli Yuk!',
+                  'MariBeli <3',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -28,13 +28,12 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Text("Catat seluruh keperluan belanjamu di sini!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                    )),
               ],
             ),
           ),
@@ -52,29 +51,26 @@ class LeftDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.add_shopping_cart),
-            title: const Text('Tambah Item'),
+            title: const Text('Tambah Produk'),
+            // Bagian redirection ke ShopFormPage
             onTap: () {
-              Navigator.pop(context);
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ShopFormPage(),
-                ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShopFormPage(),
+                  ));
             },
           ),
           ListTile(
-            leading: const Icon(Icons.checklist),
-            title: const Text('Lihat Item'),
-            onTap: () {
-              Navigator.pop(context);
+          leading: const Icon(Icons.shopping_basket),
+          title: const Text('Daftar Produk'),
+          onTap: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProductListPage(), 
-                ),
+              context,
+              MaterialPageRoute(builder: (context) => const ProductPage()),
               );
-            },
-          ),
+          },
+),
         ],
       ),
     );

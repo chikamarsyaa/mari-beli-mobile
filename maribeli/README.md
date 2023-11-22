@@ -348,3 +348,71 @@ if (item.name == "Tambah Item") {
 ~~~
 
 </details>
+
+<details>
+<summary><b>Tugas 9</b></summary>
+
+### Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
+---
+Ya, pengambilan data JSON bisa dilakukan tanpa membuat model terlebih dahulu. Pengambilan data JSON biasanya melibatkan akses atau permintaan data JSON dari suatu sumber, seperti API web atau file JSON lokal, dan kemudian mengurai data JSON tersebut untuk mendapatkan informasi yang dibutuhkan. Namun, penggunaan model akan memberikan impact yang lebih baik karena dapat digunakan kembali di berbagai bagian aplikasi.
+
+---
+### Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+---
+<strong>CookieRequest</strong> biasa digunakan untuk mengelola Cookie seperti pengiriman dan penerimaan Cookie, token authentication, dan memastikan bahwa Cookie telah disimpan dan di transmisikan dengan aman. <br>
+<strong>CookieRequest</strong> perlu dibagikan ke semua komponen di aplikasi Flutter karena untuk  memastikan bahwa semua permintaan HTTP yang dibuat dari berbagai bagian aplikasi menggunakan cookie yang sama, serta memungkinkan pengelolaan keamanan cookie secara terpusat, dan menjaga efisiensi.
+
+---
+### Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
+---
+1. **Fetch Data**:
+   - Menggunakan HTTP request (biasanya `GET`) untuk mengambil data JSON dari web service.
+
+2. **Deserialisasi JSON**:
+   - Mengubah data JSON yang diterima menjadi objek Dart. Ini bisa dilakukan dengan menggunakan model yang sudah dibuat atau secara langsung menjadi `Map` atau `List`, tergantung pada struktur JSON.
+
+3. **Penggunaan Data**:
+   - Menggunakan data yang telah dikonversi untuk mengisi state atau variabel di dalam aplikasi Flutter. Ini bisa berupa data yang ditampilkan langsung atau yang digunakan untuk logika lebih lanjut dalam aplikasi.
+
+4. **Menampilkan Data**:
+   - Menampilkan data yang telah dikonversi ke dalam aplikasi dengan menggunakan berbagai widget Flutter. Sebagai contoh, `ListView.builder` dapat digunakan untuk menampilkan daftar data, sementara `Text` atau `Card` widget dapat digunakan untuk menampilkan detail data.
+
+`Catatan Penting`
+
+- Penting untuk melakukan penanganan error selama proses fetch data untuk menangani kasus seperti koneksi jaringan yang buruk atau data yang tidak valid.
+- Gunakan `FutureBuilder` atau `StreamBuilder` untuk membangun widget yang bergantung pada data asynchronous, seperti data yang di-fetch dari web service.
+
+---
+### Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.
+---
+| Widget            | Fungsi |
+|-------------------|--------|
+| `Scaffold`        | Membuat struktur dasar tampilan aplikasi |
+| `ListView.builder`| Membuat daftar dinamis berdasarkan data |
+| `TextFormField`   | Mengumpulkan input teks dari pengguna |
+| `ElevatedButton`  | Tombol untuk melakukan aksi, seperti submit form |
+| `FutureBuilder`   | Membangun UI berdasarkan hasil interaksi dengan `Future` |
+
+---
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+---
+<strong>Implementasi Pada Aplikasi Django : </strong> 
+- Membuat Django App baru bernama `authentication`
+- Install django-cors-headers dan modifikasi settings.py dengan menambahkan authentication dan corsheaders pada INSTALLED_APPS
+- Tambahkan corsheaders.middleware.CorsMiddleware pada middleware dan ada beberapa variable baru.
+- Membuat views dan urls baru untuk login pada authentication dan tambahkan path yang diperlukan
+- Implementasikan logout, tambahkan views dan urls baru pada authentication
+
+<strong>Implementasi Pada Aplikasi Flutter : </strong>
+- Install package yang dibutuhkan, yaitu provider dan pbp_django_auth
+- Ubah StatelessWidget agar dapat menyediakan CookieRequest dengan menggunakan Provider
+- Buat file login.dart di folder screens, lalu ubah main.dart widget MaterialApp sehingga langsung muncul di LoginPage
+- Ambil data JSON dari project Sjango dan ubah menjadi language dart
+- Install package http untuk menjalankan perintah http request 
+- Modifikasi android/app/src/main/AndroidManifest.xml, untuk memperbolehkan akses internet pada aplikasi Flutter
+- Buat file list_product_dart di folder screens, lalu tambahkan ke widget/left_drawer.dart, lalu ubah juga fungsi tombol `Lihat Produk`
+- Jangan lupa untuk import file - file yang dibutuhkan
+- Hubungkan halaman shoplist_form.dart dengan CookieRequest.
+- Implementasi logout, dengan menambahkan kode untuk CookieRequest dan else if baru sehingga tombol logout dapat berfungsi
+
+</details>
